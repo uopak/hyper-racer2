@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -9,12 +10,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject carPrefab;
     [SerializeField] private GameObject roadPrefab;
     
-    [Header("속성값")]
-    [SerializeField] private Vector3 carSpawnPosition = new Vector3(0, 0, 0);
-
     [Header("UI 관련")]
     [SerializeField] private MoveButton leftMoveButton;
     [SerializeField] private MoveButton rightMoveButton;
+    [SerializeField] private TMP_Text gasText;
+    
+    [Header("속성값")]
+    [SerializeField] private Vector3 carSpawnPosition = new Vector3(0, 0, 0);
     
     // 도로 오브젝트 풀
     private Queue<GameObject> _roadPool = new Queue<GameObject>();
@@ -22,6 +24,9 @@ public class GameManager : MonoBehaviour
     
     // 도로 이동
     private List<GameObject> _activeRoads = new List<GameObject>();
+    
+    // 자동차
+    private CarController _carController;
     
     // 싱글턴
     private static GameManager _instance;
@@ -65,6 +70,9 @@ public class GameManager : MonoBehaviour
         {
             activeRoad.transform.Translate(-Vector3.forward * Time.deltaTime);
         }
+        
+        // Gas 정보 출력
+        if(_carController != null) gasText.text = _carController.Gas.ToString();
     }
 
     private void StartGame()
@@ -73,12 +81,12 @@ public class GameManager : MonoBehaviour
         SpawnRoad(Vector3.zero);
         
         // 자동차 생성
-        var carController = Instantiate(carPrefab, carSpawnPosition, Quaternion.identity)
+        _carController = Instantiate(carPrefab, carSpawnPosition, Quaternion.identity)
             .GetComponent<CarController>();
         
         // Left, Right move button에 자동차 컨트롤 기능 적용
-        leftMoveButton.OnMoveButtonDown += () => carController.Move(-1f);
-        rightMoveButton.OnMoveButtonDown += () => carController.Move(1f);
+        leftMoveButton.OnMoveButtonDown += () => _carController.Move(-1f);
+        rightMoveButton.OnMoveButtonDown += () => _carController.Move(1f);
     }
     
     #region 도로 생성 및 관리
@@ -116,6 +124,13 @@ public class GameManager : MonoBehaviour
             GameObject road = Instantiate(roadPrefab, position, Quaternion.identity);
             _activeRoads.Add(road);
         }
+    }
+
+    public void DestroyRoad(GameObject road)
+    {
+        road.SetActive(false);
+        _activeRoads.Remove(road);
+        _roadPool.Enqueue(road);
     }
     
     #endregion

@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Gas
+  m_text: 'Gas: '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -396,9 +396,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carPrefab: {fileID: 4824477798165243328, guid: 066508c2dba61ba449ed17ebe8d848fd, type: 3}
   roadPrefab: {fileID: 277127353414444275, guid: 86385c9581f40a940a734ceb2b0494c2, type: 3}
-  carSpawnPosition: {x: 0, y: -0.25, z: -3}
   leftMoveButton: {fileID: 1592672423}
   rightMoveButton: {fileID: 1710410609}
+  gasText: {fileID: 255640609}
+  carSpawnPosition: {x: 0, y: -0.25, z: -3}
 --- !u!1 &1449196668
 GameObject:
   m_ObjectHideFlags: 0
