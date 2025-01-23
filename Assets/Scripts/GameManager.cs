@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     [Header("속성값")]
     [SerializeField] private Vector3 carSpawnPosition = new Vector3(0, 0, 0);
     
+    // 자동차
+    private CarController _carController;
+    
     // 도로 오브젝트 풀
     private Queue<GameObject> _roadPool = new Queue<GameObject>();
     private int _roadPoolSize = 3;
@@ -25,8 +28,9 @@ public class GameManager : MonoBehaviour
     // 도로 이동
     private List<GameObject> _activeRoads = new List<GameObject>();
     
-    // 자동차
-    private CarController _carController;
+    // 상태
+    public enum State {Start, Play, End}
+    public State GameState { get; private set; } = State.Start;
     
     // 싱글턴
     private static GameManager _instance;
