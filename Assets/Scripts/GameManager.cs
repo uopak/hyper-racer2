@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
     
     // 싱글턴
     private static GameManager _instance;
-    
     public static GameManager Instance
     {
         get
@@ -65,10 +64,10 @@ public class GameManager : MonoBehaviour
             _instance = this;
         }
         
-        Time.timeScale = 5;
+        Time.timeScale = 5f;
     }
     
-    void Start()
+    private void Start()
     {
         // Road 오브젝트 풀 초기화
         InitializeRoadPool();
@@ -76,25 +75,26 @@ public class GameManager : MonoBehaviour
         // 게임 상태 Start로 변경
         GameState = State.Start;
         
-        // 게임 시작
+        // Start Panel 표
         ShowStartPanel();
     }
 
-    void Update()
+    private void Update()
     {
         switch (GameState)
         {
             case State.Start:
                 break;
             case State.Play:
-            foreach (var activeRoad in _activeRoads)
-            {
-                activeRoad.transform.Translate(-Vector3.forward * Time.deltaTime);
-            }
+            	// 활성화 된 도로를 아래로 서서히 이
+            	foreach (var activeRoad in _activeRoads)
+            	{
+               	 activeRoad.transform.Translate(-Vector3.forward * Time.deltaTime);
+            	}
 
-            // Gas 정보 출력
-            if (_carController != null) gasText.text = _carController.Gas.ToString();
-            break;
+           		// Gas 정보 출력
+            	if (_carController != null) gasText.text = _carController.Gas.ToString();
+            	break;
             case State.End:
                 break;
         }
@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+		// _roadIndex 초기화
         _roadIndex = 0;
 
         // 도로 생성
