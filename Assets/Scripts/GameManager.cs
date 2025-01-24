@@ -7,7 +7,7 @@ using UnityEngine.PlayerLoop;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("프리펩")]
+    [Header("프리팹")]
     [SerializeField] private GameObject carPrefab;
     [SerializeField] private GameObject roadPrefab;
     
@@ -36,8 +36,8 @@ public class GameManager : MonoBehaviour
     private int _roadIndex;
     
     // 상태
-    public enum State {Start, Play, End}
-    public State GameState { get; private set; } = State.Start;
+    public enum State { Start, Play, End }
+    public State GameState { get; private set; }
     
     // 싱글턴
     private static GameManager _instance;
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         // 게임 상태 Start로 변경
         GameState = State.Start;
         
-        // Start Panel 표
+        // Start Panel 표시
         ShowStartPanel();
     }
 
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
             case State.Start:
                 break;
             case State.Play:
-            	// 활성화 된 도로를 아래로 서서히 이
+            	// 활성화 된 도로를 아래로 서서히 이동
             	foreach (var activeRoad in _activeRoads)
             	{
                	 activeRoad.transform.Translate(-Vector3.forward * Time.deltaTime);
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
         GameState = State.End;
         
         // 자동차 제거
-        Destroy(_carController);
+        Destroy(_carController.gameObject);
         
         // 도로 제거
         foreach (var activeRoad in _activeRoads)
